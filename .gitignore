@@ -1,0 +1,9 @@
+node_modules/
+dist/
+build/
+out/
+.eslintcache
+.env
+.env.example
+
+package-lock.json

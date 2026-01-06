@@ -1,4 +1,4 @@
-import { Play, ArrowRight } from 'lucide-react'
+import { ArrowRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { useScrollAnimation } from '@/hooks/use-scroll-animation'
 import video from '@/assets/videos/hero_video.mp4'

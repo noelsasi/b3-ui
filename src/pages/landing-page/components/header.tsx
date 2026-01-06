@@ -1,12 +1,10 @@
-import { CircleUser, Search, ShoppingCart } from 'lucide-react'
+import { Settings, ChevronDown } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { getDisplayName, ProfileDropdown } from '@/components/profile-dropdown'
+import { ProfileDropdown } from '@/components/profile-dropdown'
 
 export function Header() {
   const { auth } = useAuthStore()
-  const user = auth.user
   const isAuthenticated = !!auth.user && !!auth.accessToken
 
   const handleLogoClick = () => {
@@ -14,52 +12,70 @@ export function Header() {
   }
 
   return (
-    <header className='bg-background sticky top-0 z-50'>
-      {/* Main Header */}
-      <div className='bg-background border-b'>
-        <div className='container mx-auto flex items-center justify-between px-4 py-4'>
-          {/* Logo */}
-          <div
-            className='text-foreground cursor-pointer text-2xl font-bold'
-            onClick={handleLogoClick}
-          >
+    <header className='bg-white sticky top-0 z-50 border-b border-gray-100'>
+      <div className='container mx-auto flex items-center justify-between px-4 py-4 lg:px-8'>
+        {/* Logo */}
+        <div
+          className='flex items-center gap-2 cursor-pointer'
+          onClick={handleLogoClick}
+        >
+          <Settings className='h-6 w-6 text-emerald-700' />
+          <span className='text-xl font-semibold text-gray-900'>
             Project B3
+          </span>
+        </div>
+
+        {/* Navigation */}
+        <nav className='hidden md:flex items-center gap-8'>
+          <a
+            href='#shop'
+            className='text-gray-700 hover:text-emerald-700 transition-colors font-medium'
+          >
+            Shop
+          </a>
+          <div className='relative group'>
+            <button className='flex items-center gap-1 text-gray-700 hover:text-emerald-700 transition-colors font-medium'>
+              Collections
+              <ChevronDown className='h-4 w-4' />
+            </button>
           </div>
+          <a
+            href='#company'
+            className='text-gray-700 hover:text-emerald-700 transition-colors font-medium'
+          >
+            Company
+          </a>
+          <a
+            href='#reviews'
+            className='text-gray-700 hover:text-emerald-700 transition-colors font-medium'
+          >
+            Reviews
+          </a>
+        </nav>
 
-          {/* Right Side Actions */}
-          <div className='flex items-center gap-4'>
-            {/* Search */}
-            <div className='relative hidden items-center md:flex'>
-              <Search className='text-muted-foreground absolute left-3 h-4 w-4' />
-              <Input
-                type='search'
-                placeholder='Search'
-                className='bg-background w-64 pl-9'
-              />
-            </div>
-
-            {/* Cart */}
-            <Button variant='ghost' size='icon' aria-label='Shopping cart'>
-              <ShoppingCart className='h-5 w-5' />
-            </Button>
-
-            {/* Theme Switch */}
-            {/* <ThemeSwitch /> */}
-
-            {isAuthenticated ? (
-              <ProfileDropdown />
-            ) : (
-              <div
-                className='flex cursor-pointer items-center gap-2'
+        {/* Auth Buttons */}
+        <div className='flex items-center gap-3'>
+          {isAuthenticated ? (
+            <ProfileDropdown />
+          ) : (
+            <>
+              <Button
+                variant='outline'
+                size='sm'
                 onClick={() => (window.location.href = '/sign-in')}
+                className='rounded-none border border-primary'
               >
-                <CircleUser className='h-4 w-4' />
-                <span className='text-sm'>
-                  {user ? getDisplayName(user?.email) : 'Sign In'}
-                </span>
-              </div>
-            )}
-          </div>
+                Log In
+              </Button>
+              <Button
+                size='sm'
+                onClick={() => (window.location.href = '/sign-in')}
+                className='rounded-none border border-primary'
+              >
+                Register
+              </Button>
+            </>
+          )}
         </div>
       </div>
     </header>

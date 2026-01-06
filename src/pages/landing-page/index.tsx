@@ -1,25 +1,27 @@
 import { BrandsSection } from './components/brands-section'
-import { CuratedPicksSection } from './components/curated-picks-section'
-import { CustomerExperienceSection } from './components/customer-experience-section'
-import { FeaturedProductsSection } from './components/featured-products-section'
+import { CategoriesSection } from './components/categories-section'
+import { CTASection } from './components/cta-section'
+import { ExceptionalJewelrySection } from './components/exceptional-jewelry-section'
 import { Footer } from './components/footer'
 import { Header } from './components/header'
-import { HeroBanner } from './components/hero-banner'
-import { LimitedOfferBanner } from './components/limited-offer-banner'
-import { NewsletterSection } from './components/newsletter-section'
+import { HeroSection } from './components/hero-section'
+import { TestimonialsSection } from './components/testimonials-section'
+import { TrendingCollectionsSection } from './components/trending-collections-section'
+import { WelcomeSection } from './components/welcome-section'
 
 export function LandingPage() {
   return (
-    <div className='flex min-h-screen flex-col'>
+    <div className='flex min-h-screen flex-col bg-white'>
       <Header />
       <main className='flex-1'>
-        <HeroBanner />
+        <HeroSection />
         <BrandsSection />
-        <CustomerExperienceSection />
-        <CuratedPicksSection />
-        <FeaturedProductsSection />
-        <LimitedOfferBanner />
-        <NewsletterSection />
+        <WelcomeSection />
+        <ExceptionalJewelrySection />
+        <TrendingCollectionsSection />
+        <CategoriesSection />
+        <TestimonialsSection />
+        <CTASection />
       </main>
       <Footer />
     </div>

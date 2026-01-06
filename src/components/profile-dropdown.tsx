@@ -1,4 +1,6 @@
+import { PersonIcon } from '@radix-ui/react-icons'
 import { Link } from '@tanstack/react-router'
+import { useAuthStore } from '@/stores/auth-store'
 import useDialogState from '@/hooks/use-dialog-state'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
@@ -9,11 +11,21 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { SignOutDialog } from '@/components/sign-out-dialog'
-import { useAuthStore } from '@/stores/auth-store'
+
+// Get display name from email
+export const getDisplayName = (email?: string) => {
+  if (email) {
+    const emailPart = email.split('@')[0]
+    return emailPart
+      .split('.')
+      .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+      .join(' ')
+  }
+  return 'User'
+}
 
 export function ProfileDropdown() {
   const [open, setOpen] = useDialogState()
@@ -32,16 +44,7 @@ export function ProfileDropdown() {
     if (user?.accountNo) {
       return user.accountNo.substring(0, 2).toUpperCase()
     }
-    return 'U'
-  }
-
-  // Get display name from email
-  const getDisplayName = () => {
-    if (user?.email) {
-      const emailPart = user.email.split('@')[0]
-      return emailPart.split('.').map(part => part.charAt(0).toUpperCase() + part.slice(1)).join(' ')
-    }
-    return user?.accountNo || 'User'
+    return <PersonIcon className='h-4 w-4' />
   }
 
   return (
@@ -58,7 +61,9 @@ export function ProfileDropdown() {
         <DropdownMenuContent className='w-56' align='end' forceMount>
           <DropdownMenuLabel className='font-normal'>
             <div className='flex flex-col gap-1.5'>
-              <p className='text-sm leading-none font-medium'>{getDisplayName()}</p>
+              <p className='text-sm leading-none font-medium'>
+                {getDisplayName(user?.email)}
+              </p>
               <p className='text-muted-foreground text-xs leading-none'>
                 {user?.email || 'No email'}
               </p>
@@ -67,31 +72,15 @@ export function ProfileDropdown() {
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem asChild>
-              <Link to='/settings'>
-                Profile
-                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-              </Link>
+              <Link to='/settings'>Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link to='/settings'>
-                Billing
-                <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-              </Link>
+              <Link to='/settings'>Settings</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem asChild>
-              <Link to='/settings'>
-                Settings
-                <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-              </Link>
-            </DropdownMenuItem>
-            <DropdownMenuItem>New Team</DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem variant='destructive' onClick={() => setOpen(true)}>
             Sign out
-            <DropdownMenuShortcut className='text-current'>
-              ⇧⌘Q
-            </DropdownMenuShortcut>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

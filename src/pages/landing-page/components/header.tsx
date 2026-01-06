@@ -1,19 +1,12 @@
-import { Link } from '@tanstack/react-router'
-import { Search, ShoppingCart, ChevronDown } from 'lucide-react'
+import { CircleUser, Search, ShoppingCart } from 'lucide-react'
 import { useAuthStore } from '@/stores/auth-store'
 import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import { Input } from '@/components/ui/input'
-import { ProfileDropdown } from '@/components/profile-dropdown'
-import { ThemeSwitch } from '@/components/theme-switch'
+import { getDisplayName, ProfileDropdown } from '@/components/profile-dropdown'
 
 export function Header() {
   const { auth } = useAuthStore()
+  const user = auth.user
   const isAuthenticated = !!auth.user && !!auth.accessToken
 
   const handleLogoClick = () => {
@@ -33,39 +26,6 @@ export function Header() {
             Project B3
           </div>
 
-          {/* Navigation */}
-          <nav className='hidden items-center gap-6 md:flex'>
-            <DropdownMenu>
-              <DropdownMenuTrigger className='hover:text-primary text-foreground flex items-center gap-1 transition-colors'>
-                Shop <ChevronDown className='h-4 w-4' />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuItem>All Products</DropdownMenuItem>
-                <DropdownMenuItem>Men</DropdownMenuItem>
-                <DropdownMenuItem>Women</DropdownMenuItem>
-                <DropdownMenuItem>Accessories</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <a
-              href='#featured-products'
-              className='hover:text-primary text-foreground transition-colors'
-            >
-              Most wanted
-            </a>
-            <a
-              href='#featured-products'
-              className='hover:text-primary text-foreground transition-colors'
-            >
-              New arrival
-            </a>
-            <a
-              href='#brands'
-              className='hover:text-primary text-foreground transition-colors'
-            >
-              Brands
-            </a>
-          </nav>
-
           {/* Right Side Actions */}
           <div className='flex items-center gap-4'>
             {/* Search */}
@@ -84,15 +44,20 @@ export function Header() {
             </Button>
 
             {/* Theme Switch */}
-            <ThemeSwitch />
+            {/* <ThemeSwitch /> */}
 
-            {/* Auth Actions */}
             {isAuthenticated ? (
               <ProfileDropdown />
             ) : (
-              <Button asChild>
-                <Link to='/sign-in'>Sign In</Link>
-              </Button>
+              <div
+                className='flex cursor-pointer items-center gap-2'
+                onClick={() => (window.location.href = '/sign-in')}
+              >
+                <CircleUser className='h-4 w-4' />
+                <span className='text-sm'>
+                  {user ? getDisplayName(user?.email) : 'Sign In'}
+                </span>
+              </div>
             )}
           </div>
         </div>
